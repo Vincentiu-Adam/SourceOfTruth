@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: spreadsheets
+  m_EditorClassIdentifier: 
+  m_GroupName: spreadsheets
+  m_GUID: a1f088ab9fe4b964fb3b149d0f3f2d86
+  m_SerializeEntries:
+  - m_GUID: aeb97bdb310d4d6409f9c04e19ea8ca2
+    m_Address: spreadsheet_data
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 689f29f950eead6419177d38d0715e40, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 5822b8511e31cbc489d861748da7293e, type: 2}
+    - {fileID: 11400000, guid: c33115b4f9f5bb1489bf83e103b18d35, type: 2}
