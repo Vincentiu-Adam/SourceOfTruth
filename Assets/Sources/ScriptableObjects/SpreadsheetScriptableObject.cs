@@ -4,6 +4,6 @@
 public class SpreadsheetScriptableObject : ScriptableObject
 {
     [SerializeField]
-    private string url;
-    public string URL => url;
+    private string id;
+    public string ID => id;
 }
