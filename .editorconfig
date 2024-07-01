@@ -80,9 +80,6 @@ dotnet_diagnostic.IDE0090.severity = none # new MyClass() -> new() # Unity incom
 dotnet_diagnostic.CA1012.severity = warning # Abstract types should not have public constructors
 dotnet_diagnostic.CA1822.severity = warning # Make member static
 
-# https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/index.md
-dotnet_diagnostic.UNT0021.severity = suggestion # https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0021.md
-
 #############################
 # More Style
 #############################
@@ -186,7 +183,7 @@ csharp_preserve_single_line_statements = false
 dotnet_diagnostic.IDE0007.severity = warning
 csharp_style_var_for_built_in_types = false:warning
 csharp_style_var_when_type_is_apparent = false:warning
-csharp_style_var_elsewhere = false:warning
+csharp_style_var_elsewhere = false
 
 #############################
 # Case
