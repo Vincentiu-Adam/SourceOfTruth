@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "unit_stat_data", menuName = "SpreadsheetData/Units/UnitStatsScriptableObject")]
-public class UnitStatsScriptableObject : ScriptableObject
+public class UnitStatsScriptableObject : SpreadsheetDataScriptableObject
 {
     public int ID;
 
