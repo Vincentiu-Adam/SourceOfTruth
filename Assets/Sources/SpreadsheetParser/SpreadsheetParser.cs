@@ -67,23 +67,29 @@ public class SpreadsheetParser
     }
 
     //fetch the data based on the column data from the spreadsheet and set it to the data container
-    public static void SetDataForTypeFromColumn<T>(JArray spreadsheetColumns, SpreadsheetColumnData columnData, ref T dataContainer) where T : SpreadsheetDataScriptableObject
+    public static bool SetDataForTypeFromColumn<T>(JArray spreadsheetColumns, SpreadsheetColumnData columnData, ref T dataContainer) where T : SpreadsheetDataScriptableObject
     {
+        bool hasSet = false;
+
         Type dataType = typeof(T);
         for (int i = 0; i < columnData.Length; i++)
         {
             int columnIndex = columnData.ColumnIndices[i];
             string columnName = columnData.ColumnNames[i];
 
-            //set the value to the field 
-            if (ContainsField(columnName, dataType, out FieldInfo field))
+            //set the value to the field
+            if (ContainsField(columnName, dataType, out FieldInfo field) && columnIndex < spreadsheetColumns.Count) //some empty rows are not complete with all the columns so we skip those
             {
                 JToken userValue = spreadsheetColumns[columnIndex];
                 object columnValue = field.FieldType.IsEnum ? GetEnumValue(userValue, field.FieldType) : GetValue(userValue);
 
                 field.SetValue(dataContainer, columnValue);
+
+                hasSet = columnValue != null;
             }
         }
+
+        return hasSet;
     }
 
     private static object GetValue(JToken userValue)
