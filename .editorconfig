@@ -151,7 +151,7 @@ csharp_prefer_simple_using_statement = false:warning
 csharp_using_directive_placement = outside_namespace:error
 
 # Space preferences
-csharp_space_after_cast = false # (float)v
+csharp_space_after_cast = true # (float) v
 csharp_space_after_colon_in_inheritance_clause = true
 csharp_space_after_comma = true
 csharp_space_after_dot = false
