@@ -3,6 +3,7 @@
 [CreateAssetMenu(fileName = "unit_stat_data", menuName = "SpreadsheetData/Units/UnitStatsScriptableObject")]
 public class UnitStatsScriptableObject : SpreadsheetDataScriptableObject
 {
+    [ReadOnly]
     public string ID;
 
     public string Name;
