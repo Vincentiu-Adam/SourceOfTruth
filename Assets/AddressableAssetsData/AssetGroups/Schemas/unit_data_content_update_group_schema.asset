@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
-  m_Name: spreadsheets_ContentUpdateGroupSchema
+  m_Name: unit_data_content_update_group_schema
   m_EditorClassIdentifier: 
-  m_Group: {fileID: 11400000, guid: 18b5bdacd16292641a199120d6839e8d, type: 2}
+  m_Group: {fileID: 11400000, guid: 6ccd8493b8b01334ab4b62bc7ef9263d, type: 2}
   m_StaticContent: 0
