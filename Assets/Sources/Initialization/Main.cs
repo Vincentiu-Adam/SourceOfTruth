@@ -7,36 +7,54 @@ using UnityEngine.AddressableAssets;
 public class Main : MonoBehaviour
 {
     private const string SheetPath = "spreadsheet_data";
-    private const string UnitParentName = "character_container";
-    private const string StagingParentName = "staging";
+
     private const string UIPrefabName = "ui";
+
+    private const string StagingParentName = "staging";
+    private const string UnitParentName = "character_container";
     private const string UnitInfoUIParentName = "canvas/unit_info";
 
-    private GameObject[] m_UnitPrefabs = null;
+    private const string ReloadButtonName = "canvas/button_reload";
+    private const string SimulateButtonName = "canvas/button_simulate";
+
     private GameObject m_UIPrefab = null;
 
     private Button m_ReloadButton = null;
+    private Button m_SimulateButton = null;
 
     private Transform m_UnitParent = null;
 
     private Transform m_LeftStagingSlot = null;
     private Transform m_RightStagingSlot = null;
 
-    private GameObject m_LeftUnit = null;
-    private GameObject m_RightUnit = null;
+    private UnitData m_LeftUnitData = null;
+    private UnitData m_RightUnitData = null;
+
+    private UnitPresentationData m_LeftUnitPresentationData = null;
+    private UnitPresentationData m_RightUnitPresentationData = null;
 
     private UnitInfoUI m_LeftInfoUI = null;
     private UnitInfoUI m_RightInfoUI = null;
 
     private UnitRepository m_UnitRepository = null;
+    private UnitPresentationRepository m_UnitPresentationRepository = null;
+
+    private UnitSimulation m_UnitSimulation = null;
+    private UnitPresentation m_UnitPresentation = null;
 
     private IEnumerator Start()
     {
+        //disable update loop and only start when we click simulate
+        enabled = false;
+
         SpreadsheetData resultData = new SpreadsheetData();
         yield return SpreadsheetUtility.LoadSpreadsheet(SheetPath, resultData);
 
+        m_UnitSimulation = new UnitSimulation();
+        m_UnitPresentation = new UnitPresentation();
+
         m_UnitRepository = SpreadsheetUtility.LoadUnitSpreadsheet(resultData.ResultJSON);
-        Debug.LogFormat("Manager to load {0} units", m_UnitRepository.Count);
+        Debug.LogFormat("Managed to load {0} units", m_UnitRepository.Count);
 
         Transform staging = GameObject.Find(StagingParentName).transform;
         m_LeftStagingSlot = staging.GetChild(0);
@@ -50,24 +68,81 @@ public class Main : MonoBehaviour
         yield return LoadUI();
 
         m_ReloadButton.onClick.AddListener(OnReload);
+        m_SimulateButton.onClick.AddListener(OnSimulate);
 
         OnReload();
     }
 
-    private void OnDestroy()
+    private void Update()
     {
-        foreach (GameObject unitPrefab in m_UnitPrefabs)
+        //simulation phase
+        m_UnitSimulation.UpdateUnit(m_LeftUnitData);
+        m_UnitSimulation.UpdateUnit(m_RightUnitData);
+
+        //simulation and presentation mix
+        bool anyDead = false;
+        if (m_LeftUnitData.AttackCounter >= 1f)
         {
-            if (unitPrefab != null)
+            m_UnitSimulation.Attack(m_LeftUnitData, m_RightUnitData);
+            m_UnitPresentation.Attack(m_LeftUnitPresentationData);
+
+            //ui update
+            float rightUnitHealthRatio = m_RightUnitData.Health / m_RightUnitData.UnitStats.BaseHealth;
+            m_RightInfoUI.UpdateUnitHealth(m_RightUnitData.Health, rightUnitHealthRatio);
+
+            if (m_RightUnitData.Health == 0)
             {
-                Addressables.ReleaseInstance(unitPrefab);
+                m_UnitPresentation.Death(m_RightUnitPresentationData);
+
+                anyDead = true;
+            }
+            else
+            {
+                m_UnitPresentation.Hit(m_RightUnitPresentationData);
             }
         }
 
-        if (m_UIPrefab != null)
+        if (m_RightUnitData.AttackCounter >= 1f)
         {
-            Addressables.ReleaseInstance(m_UIPrefab);
+            m_UnitSimulation.Attack(m_RightUnitData, m_LeftUnitData);
+            m_UnitPresentation.Attack(m_RightUnitPresentationData);
+
+            //ui update
+            float leftUnitHealthRatio = m_LeftUnitData.Health / m_LeftUnitData.UnitStats.BaseHealth;
+            m_LeftInfoUI.UpdateUnitHealth(m_LeftUnitData.Health, leftUnitHealthRatio);
+
+            if (m_LeftUnitData.Health == 0)
+            {
+                m_UnitPresentation.Death(m_LeftUnitPresentationData);
+
+                anyDead = true;
+            }
+            else
+            {
+                m_UnitPresentation.Hit(m_LeftUnitPresentationData);
+            }
         }
+
+        //simulation end phase
+        m_UnitSimulation.CheckUnit(m_LeftUnitData);
+        m_UnitSimulation.CheckUnit(m_RightUnitData);
+
+        //first unit who wins, end simulation
+        if (anyDead)
+        {
+            enabled = false;
+        }
+    }
+
+    //on application quit gets called before all the destroy nonsense, so we use this to release while the objects are still available :(
+    private void OnApplicationQuit()
+    {
+        foreach (UnitPresentationData unitPresentationData in m_UnitPresentationRepository)
+        {
+            Addressables.ReleaseInstance(unitPresentationData.GameObject);
+        }
+
+        Addressables.ReleaseInstance(m_UIPrefab);
     }
 
     private IEnumerator LoadUI()
@@ -75,12 +150,15 @@ public class Main : MonoBehaviour
         var loadOperation = Addressables.InstantiateAsync(UIPrefabName);
         yield return loadOperation;
 
-        GameObject ui = loadOperation.Result;
+        m_UIPrefab = loadOperation.Result;
+
+        Transform ui = m_UIPrefab.transform;
         ui.name = UIPrefabName;
 
-        m_ReloadButton = ui.GetComponentInChildren<Button>();
+        m_ReloadButton = ui.Find(ReloadButtonName).GetComponent<Button>();
+        m_SimulateButton = ui.Find(SimulateButtonName).GetComponent<Button>();
 
-        Transform unitInfoUIParent = ui.transform.Find(UnitInfoUIParentName);
+        Transform unitInfoUIParent = ui.Find(UnitInfoUIParentName);
 
         m_LeftInfoUI = new UnitInfoUI(unitInfoUIParent.GetChild(0));
         m_RightInfoUI = new UnitInfoUI(unitInfoUIParent.GetChild(1));
@@ -88,7 +166,7 @@ public class Main : MonoBehaviour
 
     private IEnumerator LoadUnitPrefabs(UnitRepository unitRepository, Transform unitParent)
     {
-        m_UnitPrefabs = new GameObject[unitRepository.Count];
+        m_UnitPresentationRepository = new UnitPresentationRepository(unitRepository.Count);
 
         int i = 0;
         foreach (UnitData unit in unitRepository)
@@ -101,20 +179,23 @@ public class Main : MonoBehaviour
             instance.name = unit.UnitStats.ID + "_" + visualName;
             instance.SetActive(false);
 
-            m_UnitPrefabs[i++] = loadOperation.Result;
+            UnitPresentationData unitPresentationData = new UnitPresentationData(instance);
+            m_UnitPresentationRepository.AddUnit(i++, unitPresentationData);
         }
     }
 
     private void OnReload()
     {
-        //reset previous units
-        if (m_LeftUnit != null)
-        {
-            m_LeftUnit.transform.SetParent(m_UnitParent, false);
-            m_RightUnit.transform.SetParent(m_UnitParent, false);
+        enabled = false;
 
-            m_LeftUnit.SetActive(false);
-            m_RightUnit.SetActive(false);
+        //reset previous units
+        if (m_LeftUnitPresentationData != null)
+        {
+            m_LeftUnitPresentationData.GameObject.transform.SetParent(m_UnitParent, false);
+            m_RightUnitPresentationData.GameObject.transform.SetParent(m_UnitParent, false);
+
+            m_LeftUnitPresentationData.GameObject.SetActive(false);
+            m_RightUnitPresentationData.GameObject.SetActive(false);
         }
 
         int unitCount = m_UnitRepository.Count;
@@ -128,17 +209,44 @@ public class Main : MonoBehaviour
             randomSecondUnit = Random.Range(0, unitCount);
         }
 
-        m_LeftUnit = m_UnitPrefabs[randomUnit];
-        m_LeftUnit.transform.SetParent(m_LeftStagingSlot, false);
+        m_LeftUnitData = m_UnitRepository[randomUnit];
+        m_RightUnitData = m_UnitRepository[randomSecondUnit];
 
-        m_RightUnit = m_UnitPrefabs[randomSecondUnit];
-        m_RightUnit.transform.SetParent(m_RightStagingSlot, false);
+        m_LeftUnitPresentationData = m_UnitPresentationRepository[randomUnit];
+        m_LeftUnitPresentationData.GameObject.transform.SetParent(m_LeftStagingSlot, false);
+
+        m_RightUnitPresentationData = m_UnitPresentationRepository[randomSecondUnit];
+        m_RightUnitPresentationData.GameObject.transform.SetParent(m_RightStagingSlot, false);
 
         //init unit info
-        m_LeftInfoUI.Init(m_UnitRepository[randomUnit]);
-        m_RightInfoUI.Init(m_UnitRepository[randomSecondUnit]);
+        float healthDiff = m_UnitRepository.MaxUnitHealth - m_UnitRepository.MinUnitHealth;
 
-        m_LeftUnit.SetActive(true);
-        m_RightUnit.SetActive(true);
+        UnitData randomUnitData = m_UnitRepository[randomUnit];
+
+        float unitHealthWeight = (randomUnitData.UnitStats.BaseHealth - m_UnitRepository.MinUnitHealth) / healthDiff;
+        m_LeftInfoUI.Init(randomUnitData, unitHealthWeight);
+
+        randomUnitData = m_UnitRepository[randomSecondUnit];
+
+        unitHealthWeight = (randomUnitData.UnitStats.BaseHealth - m_UnitRepository.MinUnitHealth) / healthDiff;
+        m_RightInfoUI.Init(randomUnitData, unitHealthWeight);
+
+        m_LeftUnitPresentationData.GameObject.SetActive(true);
+        m_RightUnitPresentationData.GameObject.SetActive(true);
+    }
+
+    private void OnSimulate()
+    {
+        //reset both units then try again
+        m_UnitSimulation.ResetUnit(m_LeftUnitData);
+        m_UnitSimulation.ResetUnit(m_RightUnitData);
+
+        m_UnitPresentation.Idle(m_LeftUnitPresentationData);
+        m_UnitPresentation.Idle(m_RightUnitPresentationData);
+
+        m_LeftInfoUI.UpdateUnitHealth(m_LeftUnitData.Health, 1);
+        m_RightInfoUI.UpdateUnitHealth(m_RightUnitData.Health, 1);
+
+        enabled = true;
     }
 }
