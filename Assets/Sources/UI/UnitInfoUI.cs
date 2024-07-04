@@ -12,7 +12,7 @@ public class UnitInfoUI
     private const string AttackDamageTextName = "vertical_unit_info/horizontal_stats_ui/horizontal_stat_name_value/text_attack_damage_value";
     private const string SliderName = "horizontal_health_wisdom/slider_health";
 
-    private const int MinSliderWidth = 400;
+    private const int MinSliderWidth = 360;
     private const int MaxSliderWidth = 560;
 
     private TextMeshProUGUI m_ID = null;
