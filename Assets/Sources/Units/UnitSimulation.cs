@@ -31,6 +31,7 @@ public class UnitSimulation
 
     public void Attack(UnitData unit, UnitData targetUnit)
     {
-        targetUnit.Health = Mathf.Max(0f, targetUnit.Health - unit.UnitStats.AttackDamage);
+        float damage = Mathf.Max(0, unit.UnitStats.AttackDamage - targetUnit.UnitStats.Armor);
+        targetUnit.Health = Mathf.Max(0f, targetUnit.Health - damage);
     }
 }
