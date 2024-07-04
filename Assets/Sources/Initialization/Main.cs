@@ -10,6 +10,7 @@ public class Main : MonoBehaviour
     private const string UnitParentName = "character_container";
     private const string StagingParentName = "staging";
     private const string UIPrefabName = "ui";
+    private const string UnitInfoUIParentName = "canvas/unit_info";
 
     private GameObject[] m_UnitPrefabs = null;
     private GameObject m_UIPrefab = null;
@@ -24,13 +25,18 @@ public class Main : MonoBehaviour
     private GameObject m_LeftUnit = null;
     private GameObject m_RightUnit = null;
 
+    private UnitInfoUI m_LeftInfoUI = null;
+    private UnitInfoUI m_RightInfoUI = null;
+
+    private UnitRepository m_UnitRepository = null;
+
     private IEnumerator Start()
     {
         SpreadsheetData resultData = new SpreadsheetData();
         yield return SpreadsheetUtility.LoadSpreadsheet(SheetPath, resultData);
 
-        UnitRepository unitRepository = SpreadsheetUtility.LoadUnitSpreadsheet(resultData.ResultJSON);
-        Debug.LogFormat("Manager to load {0} units", unitRepository.Count);
+        m_UnitRepository = SpreadsheetUtility.LoadUnitSpreadsheet(resultData.ResultJSON);
+        Debug.LogFormat("Manager to load {0} units", m_UnitRepository.Count);
 
         Transform staging = GameObject.Find(StagingParentName).transform;
         m_LeftStagingSlot = staging.GetChild(0);
@@ -40,12 +46,12 @@ public class Main : MonoBehaviour
         m_UnitParent = new GameObject(UnitParentName).transform;
         m_UnitParent.position = new Vector3(5, 0, 0);
 
+        yield return LoadUnitPrefabs(m_UnitRepository, m_UnitParent);
         yield return LoadUI();
-        yield return LoadUnitPrefabs(unitRepository, m_UnitParent);
 
-        m_ReloadButton.onClick.AddListener(() => OnReload(unitRepository.Count));
+        m_ReloadButton.onClick.AddListener(OnReload);
 
-        OnReload(unitRepository.Count);
+        OnReload();
     }
 
     private void OnDestroy()
@@ -73,6 +79,11 @@ public class Main : MonoBehaviour
         ui.name = UIPrefabName;
 
         m_ReloadButton = ui.GetComponentInChildren<Button>();
+
+        Transform unitInfoUIParent = ui.transform.Find(UnitInfoUIParentName);
+
+        m_LeftInfoUI = new UnitInfoUI(unitInfoUIParent.GetChild(0));
+        m_RightInfoUI = new UnitInfoUI(unitInfoUIParent.GetChild(1));
     }
 
     private IEnumerator LoadUnitPrefabs(UnitRepository unitRepository, Transform unitParent)
@@ -94,7 +105,7 @@ public class Main : MonoBehaviour
         }
     }
 
-    private void OnReload(int unitCount)
+    private void OnReload()
     {
         //reset previous units
         if (m_LeftUnit != null)
@@ -105,6 +116,8 @@ public class Main : MonoBehaviour
             m_LeftUnit.SetActive(false);
             m_RightUnit.SetActive(false);
         }
+
+        int unitCount = m_UnitRepository.Count;
 
         //add to the left slot a random unit
         int randomUnit = Random.Range(0, unitCount);
@@ -120,6 +133,10 @@ public class Main : MonoBehaviour
 
         m_RightUnit = m_UnitPrefabs[randomSecondUnit];
         m_RightUnit.transform.SetParent(m_RightStagingSlot, false);
+
+        //init unit info
+        m_LeftInfoUI.Init(m_UnitRepository[randomUnit]);
+        m_RightInfoUI.Init(m_UnitRepository[randomSecondUnit]);
 
         m_LeftUnit.SetActive(true);
         m_RightUnit.SetActive(true);
