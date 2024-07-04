@@ -20,6 +20,7 @@ public class SpreadsheetEditor : Editor
     private const string UnitCommonPath = "Assets/Units/";
     private const string UnitStatDataPath = UnitCommonPath + "UnitStatData/";
     private const string UnitMiscDataPath = UnitCommonPath + "UnitMiscData/";
+    private const string UnitVisualDataPath = UnitCommonPath + "UnitVisualData/";
 
     private const string UnitAddressableGroupName = "unit_data";
 
@@ -49,7 +50,8 @@ public class SpreadsheetEditor : Editor
         JArray spreadSheetColumns = (JArray) rows[0]["values"];
 
         var unitStats = SpreadsheetParser.CreateColumnDataForType<UnitStatsScriptableObject>(spreadSheetColumns);
-        var unitMiscStats = SpreadsheetParser.CreateColumnDataForType<UnitMiscDataScriptableObject>(spreadSheetColumns);
+        var unitMiscData = SpreadsheetParser.CreateColumnDataForType<UnitMiscDataScriptableObject>(spreadSheetColumns);
+        var unitVisualData = SpreadsheetParser.CreateColumnDataForType<UnitVisualDataScriptableObject>(spreadSheetColumns);
 
         AddressableAssetGroup assetGroup = AddressableAssetSettingsDefaultObject.Settings.FindGroup(UnitAddressableGroupName);
 
@@ -68,12 +70,15 @@ public class SpreadsheetEditor : Editor
             var rowUnitStats = CreateInstance<UnitStatsScriptableObject>();
             bool hasData = SpreadsheetParser.SetDataForTypeFromColumn(spreadSheetColumns, unitStats, ref rowUnitStats);
 
-            var rowMiscStats = CreateInstance<UnitMiscDataScriptableObject>();
-            hasData = SpreadsheetParser.SetDataForTypeFromColumn(spreadSheetColumns, unitMiscStats, ref rowMiscStats) || hasData;
+            var rowMiscData = CreateInstance<UnitMiscDataScriptableObject>();
+            hasData = SpreadsheetParser.SetDataForTypeFromColumn(spreadSheetColumns, unitMiscData, ref rowMiscData) || hasData;
+
+            var rowVisualData = CreateInstance<UnitVisualDataScriptableObject>();
+            hasData = SpreadsheetParser.SetDataForTypeFromColumn(spreadSheetColumns, unitVisualData, ref rowVisualData) || hasData;
 
             if (hasData)
             {
-                isSaveAsset = SaveOrUpdateUnitData(rowUnitStats, rowMiscStats, assetGroup) || isSaveAsset;
+                isSaveAsset = SaveOrUpdateUnitData(rowUnitStats, rowMiscData, rowVisualData, assetGroup) || isSaveAsset;
             }
         }
 
@@ -113,54 +118,40 @@ public class SpreadsheetEditor : Editor
         };
     }
 
-    private bool SaveOrUpdateUnitData(UnitStatsScriptableObject unitStats, UnitMiscDataScriptableObject unitMiscStats, AddressableAssetGroup addressableGroup)
+    private bool SaveOrUpdateUnitData(UnitStatsScriptableObject unitStats, UnitMiscDataScriptableObject unitMiscData, UnitVisualDataScriptableObject unitVisualData, AddressableAssetGroup addressableGroup)
     {
-        bool isSaveAsset = false;
+        string address = unitStats.ID.ToLower();
+        string assetName = address + ".asset";
 
-        string assetName = unitStats.ID.ToLower() + ".asset";
-        string assetPath = UnitStatDataPath + assetName;
-
-        var existingUnitStats = AssetDatabase.LoadAssetAtPath<UnitStatsScriptableObject>(assetPath);
-        if (existingUnitStats != null)
-        {
-            CopyData(existingUnitStats, unitStats);
-            EditorUtility.SetDirty(existingUnitStats);
-        }
-        else
-        {
-            AssetDatabase.CreateAsset(unitStats, assetPath);
-
-            //also add asset to addressable group
-            string guid = AssetDatabase.AssetPathToGUID(assetPath);
-
-            var entry = AddressableAssetSettingsDefaultObject.Settings.CreateOrMoveEntry(guid, addressableGroup);
-            entry.address = unitStats.ID.ToLower();
-
-            isSaveAsset = true;
-        }
-
-        assetPath = UnitMiscDataPath + assetName;
-
-        var existingMiscUnitStats = AssetDatabase.LoadAssetAtPath<UnitMiscDataScriptableObject>(assetPath);
-        if (existingMiscUnitStats != null)
-        {
-            CopyData(existingMiscUnitStats, unitMiscStats);
-            EditorUtility.SetDirty(existingMiscUnitStats);
-        }
-        else
-        {
-            AssetDatabase.CreateAsset(unitMiscStats, assetPath);
-
-            //also add asset to addressable group
-            string guid = AssetDatabase.AssetPathToGUID(assetPath);
-
-            var entry = AddressableAssetSettingsDefaultObject.Settings.CreateOrMoveEntry(guid, addressableGroup);
-            entry.address = unitStats.ID.ToLower();
-
-            isSaveAsset = true;
-        }
+        bool isSaveAsset = CreateOrCopyAsset(assetName, UnitStatDataPath, address, addressableGroup, unitStats);
+        isSaveAsset = CreateOrCopyAsset(assetName, UnitMiscDataPath, address, addressableGroup, unitMiscData) || isSaveAsset;
+        isSaveAsset = CreateOrCopyAsset(assetName, UnitVisualDataPath, address, addressableGroup, unitVisualData) || isSaveAsset;
 
         return isSaveAsset;
+    }
+
+    private bool CreateOrCopyAsset<T>(string assetName, string assetDataPath, string address, AddressableAssetGroup addressableGroup, T dataContainer) where T : SpreadsheetDataScriptableObject
+    {
+        string assetPath = assetDataPath + assetName;
+
+        var existingDataContainer = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+        if (existingDataContainer != null)
+        {
+            CopyData(existingDataContainer, dataContainer);
+            EditorUtility.SetDirty(existingDataContainer);
+
+            return false;
+        }
+
+        AssetDatabase.CreateAsset(dataContainer, assetPath);
+
+        //also add asset to addressable group
+        string guid = AssetDatabase.AssetPathToGUID(assetPath);
+
+        var entry = AddressableAssetSettingsDefaultObject.Settings.CreateOrMoveEntry(guid, addressableGroup);
+        entry.address = address.ToLower();
+
+        return true;
     }
 
     private void CopyData<T>(T data, T otherData) where T : SpreadsheetDataScriptableObject
