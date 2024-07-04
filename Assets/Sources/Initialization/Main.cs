@@ -1,8 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
+
+using TMPro;
 
 public class Main : MonoBehaviour
 {
@@ -16,11 +19,19 @@ public class Main : MonoBehaviour
 
     private const string ReloadButtonName = "canvas/button_reload";
     private const string SimulateButtonName = "canvas/button_simulate";
+    private const string LeftUnitSelectName = "canvas/left_unit_select";
+    private const string RightUnitSelectName = "canvas/right_unit_select";
+
+    private int m_LeftUnitIndex = -1;
+    private int m_RightUnitIndex = -1;
 
     private GameObject m_UIPrefab = null;
 
     private Button m_ReloadButton = null;
     private Button m_SimulateButton = null;
+
+    private TMP_Dropdown m_LeftUnitSelectDropdown = null;
+    private TMP_Dropdown m_RightUnitSelectDropdown = null;
 
     private Transform m_UnitParent = null;
 
@@ -67,10 +78,27 @@ public class Main : MonoBehaviour
         yield return LoadUnitPrefabs(m_UnitRepository, m_UnitParent);
         yield return LoadUI();
 
-        m_ReloadButton.onClick.AddListener(OnReload);
+        m_ReloadButton.onClick.AddListener(OnReloadSpreadsheet);
         m_SimulateButton.onClick.AddListener(OnSimulate);
 
-        OnReload();
+        m_LeftUnitSelectDropdown.onValueChanged.AddListener(OnLeftUnitSelected);
+        m_RightUnitSelectDropdown.onValueChanged.AddListener(OnRightUnitSelected);
+
+        m_LeftUnitSelectDropdown.options.Clear();
+        m_RightUnitSelectDropdown.options.Clear();
+
+        List<string> options = new List<string>() { "Random" };
+        foreach (UnitData unit in m_UnitRepository)
+        {
+            string id = unit.UnitStats.ID;
+            options.Add(id[0].ToString().ToUpper() + id[1..]);
+        }
+
+        m_LeftUnitSelectDropdown.AddOptions(options);
+        m_RightUnitSelectDropdown.AddOptions(options);
+
+        OnLeftUnitSelected(0);
+        OnRightUnitSelected(0);
     }
 
     private void Update()
@@ -158,6 +186,9 @@ public class Main : MonoBehaviour
         m_ReloadButton = ui.Find(ReloadButtonName).GetComponent<Button>();
         m_SimulateButton = ui.Find(SimulateButtonName).GetComponent<Button>();
 
+        m_LeftUnitSelectDropdown = ui.Find(LeftUnitSelectName).GetComponent<TMP_Dropdown>();
+        m_RightUnitSelectDropdown = ui.Find(RightUnitSelectName).GetComponent<TMP_Dropdown>();
+
         Transform unitInfoUIParent = ui.Find(UnitInfoUIParentName);
 
         m_LeftInfoUI = new UnitInfoUI(unitInfoUIParent.GetChild(0));
@@ -184,55 +215,73 @@ public class Main : MonoBehaviour
         }
     }
 
-    private void OnReload()
+    private void OnReloadSpreadsheet()
+    {
+
+    }
+
+    private void OnReload(int unitIndex, Transform stagingSlot, UnitInfoUI infoUI, ref UnitData unitToReload, ref UnitPresentationData unitPresentationToReload)
     {
         enabled = false;
 
         //reset previous units
-        if (m_LeftUnitPresentationData != null)
+        if (unitPresentationToReload != null)
         {
-            m_LeftUnitPresentationData.GameObject.transform.SetParent(m_UnitParent, false);
-            m_RightUnitPresentationData.GameObject.transform.SetParent(m_UnitParent, false);
-
-            m_LeftUnitPresentationData.GameObject.SetActive(false);
-            m_RightUnitPresentationData.GameObject.SetActive(false);
+            unitPresentationToReload.GameObject.transform.SetParent(m_UnitParent, false);
+            unitPresentationToReload.GameObject.SetActive(false);
         }
 
-        int unitCount = m_UnitRepository.Count;
+        unitToReload = m_UnitRepository[unitIndex];
 
-        //add to the left slot a random unit
-        int randomUnit = Random.Range(0, unitCount);
-        int randomSecondUnit = Random.Range(0, unitCount);
-
-        while (randomSecondUnit == randomUnit) //redo until no duplicate
-        {
-            randomSecondUnit = Random.Range(0, unitCount);
-        }
-
-        m_LeftUnitData = m_UnitRepository[randomUnit];
-        m_RightUnitData = m_UnitRepository[randomSecondUnit];
-
-        m_LeftUnitPresentationData = m_UnitPresentationRepository[randomUnit];
-        m_LeftUnitPresentationData.GameObject.transform.SetParent(m_LeftStagingSlot, false);
-
-        m_RightUnitPresentationData = m_UnitPresentationRepository[randomSecondUnit];
-        m_RightUnitPresentationData.GameObject.transform.SetParent(m_RightStagingSlot, false);
+        unitPresentationToReload = m_UnitPresentationRepository[unitIndex];
+        unitPresentationToReload.GameObject.transform.SetParent(stagingSlot, false);
 
         //init unit info
         float healthDiff = m_UnitRepository.MaxUnitHealth - m_UnitRepository.MinUnitHealth;
 
-        UnitData randomUnitData = m_UnitRepository[randomUnit];
+        float unitHealthWeight = (unitToReload.UnitStats.BaseHealth - m_UnitRepository.MinUnitHealth) / healthDiff;
+        infoUI.Init(unitToReload, unitHealthWeight);
 
-        float unitHealthWeight = (randomUnitData.UnitStats.BaseHealth - m_UnitRepository.MinUnitHealth) / healthDiff;
-        m_LeftInfoUI.Init(randomUnitData, unitHealthWeight);
+        unitPresentationToReload.GameObject.SetActive(true);
+    }
 
-        randomUnitData = m_UnitRepository[randomSecondUnit];
 
-        unitHealthWeight = (randomUnitData.UnitStats.BaseHealth - m_UnitRepository.MinUnitHealth) / healthDiff;
-        m_RightInfoUI.Init(randomUnitData, unitHealthWeight);
+    private void OnLeftUnitSelected(int selection)
+    {
+        //unit index is selection - 1 -> since index 0 = random
+        m_LeftUnitIndex = --selection;
 
-        m_LeftUnitPresentationData.GameObject.SetActive(true);
-        m_RightUnitPresentationData.GameObject.SetActive(true);
+        if (m_LeftUnitIndex == -1)
+        {
+            m_LeftUnitIndex = Random.Range(0, m_UnitRepository.Count);
+
+            //set dropdown value to -1 so we can re-select first option (random)
+            m_LeftUnitSelectDropdown.SetValueWithoutNotify(-1);
+        }
+
+        if (m_LeftUnitIndex != m_RightUnitIndex)
+        {
+            OnReload(m_LeftUnitIndex, m_LeftStagingSlot, m_LeftInfoUI, ref m_LeftUnitData, ref m_LeftUnitPresentationData);
+        }
+    }
+
+    private void OnRightUnitSelected(int selection)
+    {
+        //unit index is selection - 1 -> since index 0 = random
+        m_RightUnitIndex = --selection;
+
+        if (m_RightUnitIndex == -1)
+        {
+            m_RightUnitIndex = Random.Range(0, m_UnitRepository.Count);
+
+            //set dropdown value to -1 so we can re-select first option (random)
+            m_RightUnitSelectDropdown.SetValueWithoutNotify(-1);
+        }
+
+        if (m_RightUnitIndex != m_LeftUnitIndex)
+        {
+            OnReload(m_RightUnitIndex, m_RightStagingSlot, m_RightInfoUI, ref m_RightUnitData, ref m_RightUnitPresentationData);
+        }
     }
 
     private void OnSimulate()
