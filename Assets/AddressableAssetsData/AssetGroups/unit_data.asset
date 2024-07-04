@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: unit_data
   m_GUID: f5186e07db4c0a442a156349dc0b06bd
   m_SerializeEntries:
+  - m_GUID: 00f1f533b2ad76f45b1a33ca07ec5bb4
+    m_Address: beast_chasms
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 05f5c2975353c35428b74b2dd97772c1
     m_Address: offense_turret
     m_ReadOnly: 0
@@ -35,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f3e542c078b7584290ff2576c265794
+    m_Address: urso
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 106d5c63503d0d747b6629037ae692a6
     m_Address: forzjha
     m_ReadOnly: 0
@@ -45,6 +55,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 127dd819908d05e40af1a92b7abb6214
+    m_Address: cyborg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 12ac3dbe0d7f2494a995cdb1104939b6
     m_Address: advocate
     m_ReadOnly: 0
@@ -52,6 +67,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 13d95cbdf07a3b843926793a056d58db
     m_Address: murder_of_crows
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 160c95210e5458b499d69bedc7c9c82b
+    m_Address: pirates
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -90,8 +110,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26bd07c1b91d18a42a6a474ce3f443a1
+    m_Address: nuclear_king
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26d0afbfd64b2be4c959e3c48c8f664b
+    m_Address: defense_turret
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2704d1f2ddda5cc42900b5f594b8324f
     m_Address: cold_soldier
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 283b66587ed6256468218b1a5ffe631d
+    m_Address: imp_ro_bot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28bacd3f26df2eb44902f285a5efb347
+    m_Address: big_fist
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -105,13 +145,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e233054c5ec96a48bbdd68c98203ad6
+    m_Address: waste_guzzler
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2f33bb9d8fc2f924eafb828ecd25056f
     m_Address: glowing_dude
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3ae112140a68eb940a59221660051627
+    m_Address: advocate
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3be14499e291b0844bf85e7e3873f50e
     m_Address: wormbound
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e078c80941cea842ae3b475875b6c26
+    m_Address: forzjha
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -160,6 +215,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ce6580be320a02459cade31d01b33a1
+    m_Address: skill_it_please
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50068a5aa17ba0a4cb90ed0003513eb5
     m_Address: banditos
     m_ReadOnly: 0
@@ -190,6 +250,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59465c0778709694f868ae01e1d6fee3
+    m_Address: warlock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ad6a5e0dd2f0e342857718dd823623b
+    m_Address: xenoid
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5bc4965b297787440ab3b32f4b2a5edd
     m_Address: war_walker
     m_ReadOnly: 0
@@ -200,13 +270,38 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67a3dc00489292d47a860c47ed823e79
+    m_Address: ronin_usagi
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 686f9ff960bc0ee4392875b83b01a698
     m_Address: tendril
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6afaffc9037ffd34899c4c0a817a70fd
+    m_Address: animen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6d28f2e8ba64afc408541080641c8110
     m_Address: dummy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e3b0772c521f9048b41ed2af60b26a6
+    m_Address: banditos
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f9786c863572bf44ab4e902ccb16592
+    m_Address: improv_bot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7537d098e76e7b141ac5dd93479e0839
+    m_Address: radiated_slime
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -240,6 +335,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7de58c3428dd09247b56237eb039e1cb
+    m_Address: braindead
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81412cc96d8ab4949b397978f7d5cee5
+    m_Address: glowing_dude
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 81eb4d040fc798c4c88e00fa4f0be745
     m_Address: braindead
     m_ReadOnly: 0
@@ -247,6 +352,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 87f5a43f8a452f64a8d51a612a2a23c1
     m_Address: skunk_ape
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88d6c5fe06dd33f4d92b7152dc18d453
+    m_Address: skill_it
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -260,13 +370,53 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 92be7e9f52e88024c9002e84ad295572
+    m_Address: executioner
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 946d600a069e71a43b442d2e906f6a50
+    m_Address: frozo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 947651def1e9d2443b733828d5bf0db4
     m_Address: improv_bot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 955e2a71229c3fe469d4e1e39cb3d69e
+    m_Address: targonoid
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96e4ec3eba4136949aadcf47deba8d60
+    m_Address: dummy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 976829bc54e44ed408b9663f0fa072e2
     m_Address: disciple
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97c6a5a8a69bfea4fa86ba905470e87c
+    m_Address: wormbound
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 997527bd7e34d1d4f90d16003ded78cb
+    m_Address: offense_turret
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a6d5bb8978aa1048a07ae613b12b774
+    m_Address: xenoid_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9aa66c1e59a416743bdf30f1a8fc3383
+    m_Address: tendril
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -295,8 +445,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6acc1ce1a2150f45952bc82d7d5e739
+    m_Address: acolytes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a6e60c242ff1f3347a9a141001a3f001
     m_Address: targonoid
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a8494dad92dc1c74d905a5d82c8b3e6e
+    m_Address: elf_dog
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a91f3249df5c8ad4cbfac3de2b5990e4
+    m_Address: skunk_ape
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -315,6 +480,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab9ad944965b34048b1220fa41ae4357
+    m_Address: wearwolf
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aba2a13829ce05c4e8ad3b047b04bb68
+    m_Address: melting_cyborg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b46e04bacd6937c4dbd92ebc1ca9329e
     m_Address: xenoid_2
     m_ReadOnly: 0
@@ -322,6 +497,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b4ebbecf60451b94fb34c7a8d9f4cf8f
     m_Address: war_walker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7431f643110e9949b0b5bac9bb778a5
+    m_Address: cold_soldier
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -365,13 +545,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccb87d7b110d5444da2ad2a4a5754529
+    m_Address: disciple
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cda61734cb9c4424bbbb21c778135276
     m_Address: animen
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce74307b470bf5646922d6e43acac463
+    m_Address: king
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d1e506d6b381f5b4b9b0b4b08872c1f1
     m_Address: skill_it_please
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d654473ec98286348825b53b7cee09cc
+    m_Address: murder_of_crows
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -435,6 +630,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f231f014f887f1f4f9dad257278afc17
+    m_Address: ender
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f3b4126eb13f071438a388c0cf9e6eea
     m_Address: defense_turret
     m_ReadOnly: 0
@@ -445,13 +645,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f79547e793e49074f9877dd070a18648
+    m_Address: ursoggoth
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f8dbe5ee5a695584c99180ab3bb655ce
+    m_Address: tumor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f8e65ffd428044749820361ca743654b
     m_Address: radiated_slime
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fb87b07edf5e1b447847717b732ee486
+    m_Address: bogonoid
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fbb3d3f76b695b840a1ee9cf680d0417
     m_Address: urso
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc217a327550fe641a86d8d4f3236bfc
+    m_Address: war_walker
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
