@@ -1777,7 +1777,7 @@ GameObject:
   - component: {fileID: 7072444061591351794}
   - component: {fileID: 7072444061582351952}
   m_Layer: 0
-  m_Name: PolyartCharacter
+  m_Name: mech
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1815,7 +1815,7 @@ Animator:
   m_GameObject: {fileID: 7072444061591711186}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 860793eb3324391468f1c120a75ec049, type: 3}
-  m_Controller: {fileID: 9100000, guid: 6defa2fea7e9a934a8d2cafa30dc567a, type: 2}
+  m_Controller: {fileID: 22100000, guid: aadaa1227ddd2f14980059e8f71c8a51, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
