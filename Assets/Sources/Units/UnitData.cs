@@ -3,6 +3,8 @@ public class UnitData
 {
     public float Health;
 
+    public float AttackCounter;
+
     private UnitStatsScriptableObject m_UnitStats;
     public UnitStatsScriptableObject UnitStats => m_UnitStats;
 

@@ -7,6 +7,9 @@ public class UnitRepository
 
     public int Count => m_Units.Length;
 
+    public float MinUnitHealth { get; private set; }
+    public float MaxUnitHealth { get; private set; }
+
     public UnitRepository(int unitCount)
     {
         m_Units = new UnitData[unitCount];
@@ -15,6 +18,26 @@ public class UnitRepository
     public void AddUnit(int index, UnitData unit)
     {
         m_Units[index] = unit;
+
+        float unitHealth = unit.UnitStats.BaseHealth;
+        if (index == 0)
+        {
+            MinUnitHealth = unitHealth;
+            MaxUnitHealth = unitHealth;
+
+            return;
+        }
+
+        if (unitHealth < MinUnitHealth)
+        {
+            MinUnitHealth = unitHealth;
+            return;
+        }
+
+        if (unitHealth > MaxUnitHealth)
+        {
+            MaxUnitHealth = unitHealth;
+        }
     }
 
     public IEnumerator GetEnumerator()
