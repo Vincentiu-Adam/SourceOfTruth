@@ -53,6 +53,8 @@ public class Main : MonoBehaviour
     private UnitSimulation m_UnitSimulation = null;
     private UnitPresentation m_UnitPresentation = null;
 
+    private Coroutine m_ReloadCoroutine = null;
+
     private IEnumerator Start()
     {
         //disable update loop and only start when we click simulate
@@ -215,9 +217,61 @@ public class Main : MonoBehaviour
         }
     }
 
+    private IEnumerator ReloadSpreadsheet()
+    {
+        //clear loaded instances, destroy them then reload with new assets
+        foreach (UnitPresentationData unitPresentationData in m_UnitPresentationRepository)
+        {
+            Addressables.ReleaseInstance(unitPresentationData.GameObject);
+            Destroy(unitPresentationData.GameObject);
+        }
+
+        SpreadsheetData resultData = new SpreadsheetData();
+        yield return SpreadsheetUtility.LoadSpreadsheet(SheetPath, resultData);
+
+        m_UnitRepository = SpreadsheetUtility.LoadUnitSpreadsheet(resultData.ResultJSON);
+        Debug.LogFormat("Managed to load {0} units", m_UnitRepository.Count);
+
+        yield return LoadUnitPrefabs(m_UnitRepository, m_UnitParent);
+
+        m_LeftUnitPresentationData = null;
+        m_RightUnitPresentationData = null;
+
+        m_LeftUnitSelectDropdown.options.Clear();
+        m_RightUnitSelectDropdown.options.Clear();
+
+        List<string> options = new List<string>() { "Random" };
+        foreach (UnitData unit in m_UnitRepository)
+        {
+            string id = unit.UnitStats.ID;
+            options.Add(id[0].ToString().ToUpper() + id[1..]);
+        }
+
+        m_LeftUnitSelectDropdown.AddOptions(options);
+        m_RightUnitSelectDropdown.AddOptions(options);
+
+        //keep the same selected indices, but clamp the values in case we removed units from the spreadsheet to avoid index out of range
+        //add one since selection subtracts one
+        m_LeftUnitIndex = Mathf.Clamp(m_LeftUnitIndex, 0, m_UnitRepository.Count - 1);
+        m_RightUnitIndex = Mathf.Clamp(m_RightUnitIndex, 0, m_UnitRepository.Count - 1);
+
+        OnLeftUnitSelected(m_LeftUnitIndex + 1);
+        OnRightUnitSelected(m_RightUnitIndex + 1);
+
+        m_ReloadCoroutine = null;
+    }
+
     private void OnReloadSpreadsheet()
     {
+        enabled = false;
 
+        //skip while currently reloading
+        if (m_ReloadCoroutine != null)
+        {
+            return;
+        }
+
+        m_ReloadCoroutine = StartCoroutine(ReloadSpreadsheet());
     }
 
     private void OnReload(int unitIndex, Transform stagingSlot, UnitInfoUI infoUI, ref UnitData unitToReload, ref UnitPresentationData unitPresentationToReload)
