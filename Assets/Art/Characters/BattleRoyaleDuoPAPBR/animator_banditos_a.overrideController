@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: animator_banditos_a
+  m_Controller: {fileID: 9100000, guid: 49a4e3aea4ffb094294d210f1d14623f, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 3f2f5660b185f02479d526fb256acbe4, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 3b8230457e8544f48aadc4043951bf47, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 48511f3269ab33140ad32d856584c98a, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 32bacd17c736a25499e5fd8c37b7e184, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 2f592d5d1c1add446a8b3c2ff3f18a4e, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 0fef4b0648503a245bd9aa917cccc3c6, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: c24d7c58cefa37a4a84ebd75f98bcfc7, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 4776605c5590382478ca05fa3a5e1803, type: 3}

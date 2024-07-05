@@ -15,13 +15,78 @@ MonoBehaviour:
   m_GroupName: unit_prefabs
   m_GUID: c8cac6ed1f584da45a0ea7eaba84f483
   m_SerializeEntries:
+  - m_GUID: 0bd40dbf3176bcb40a6e63bebf40094b
+    m_Address: banditos_a
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12a8f24c67e94c379c1877090b48c017
+    m_Address: mech_fighter_c
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 24a0663f813d4beb91fc0c6b1e8fef36
+    m_Address: monster_d
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 45288819fde2143449a96207b14db0bb
     m_Address: beast_a
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48cbc29fa5bf4ae686f36898e480837d
+    m_Address: mech_fighter_b
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6be18c83797e9b14cb2dc9160b155d89
+    m_Address: monster_a
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 910177ec26b76c14996c2d53627a6def
     m_Address: mech
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4ec793513574cd49719c4055b630e2b
+    m_Address: monster_c
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a50dc8fc460c47aa9033b698c00b2133
+    m_Address: monster_f
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c647a6e9ba715004ebbf4dc6d7bd1e7a
+    m_Address: knight
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c73a559184154c75991d095521bdea87
+    m_Address: monster_e
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccd8c3b89aa02e943a08ab9238a8a70c
+    m_Address: wizard_b
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d909d331955945adaf35ba2e7d86500d
+    m_Address: mech_fighter_a
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d94b6c3adedb282409fcb59cb49d45bb
+    m_Address: banditos_b
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dadecae318be19749ac4fbd62bd9a632
+    m_Address: monster_b
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
