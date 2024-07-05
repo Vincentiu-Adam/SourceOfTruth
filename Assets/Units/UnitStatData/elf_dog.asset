@@ -16,5 +16,5 @@ MonoBehaviour:
   Name: enemyName_elfDog
   BaseHealth: 1550
   AttackSpeed: 1
-  AttackDamage: 280
+  AttackDamage: 300
   Armor: 25

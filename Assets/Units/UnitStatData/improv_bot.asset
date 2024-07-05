@@ -15,6 +15,6 @@ MonoBehaviour:
   ID: improv_bot
   Name: enemyName_improvbot
   BaseHealth: 1200
-  AttackSpeed: 2
-  AttackDamage: 120
-  Armor: 0
+  AttackSpeed: 1
+  AttackDamage: 30
+  Armor: 200
