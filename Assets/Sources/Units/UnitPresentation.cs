@@ -25,13 +25,16 @@ public class UnitPresentation
 
     public void PlayVFXOnUnit(UnitPresentationData unit, UnitPresentationData targetUnit)
     {
+        unit.VFX.SetActive(true);
+
         unit.VFX.transform.position = targetUnit.GameObject.transform.position;
         foreach (ParticleSystem particleSystem in unit)
         {
-            particleSystem.Play();
+            if (!particleSystem.isPlaying)
+            {
+                particleSystem.Play();
+            }
         }
-
-        unit.VFX.SetActive(true);
     }
 
     public void ResetVFX(UnitPresentationData unit)
