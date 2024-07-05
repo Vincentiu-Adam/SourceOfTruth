@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: tumor
   m_EditorClassIdentifier: 
   Visual: 1
+  VFX: 0

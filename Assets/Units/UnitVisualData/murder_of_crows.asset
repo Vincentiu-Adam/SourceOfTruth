@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: murder_of_crows
   m_EditorClassIdentifier: 
   Visual: 1
+  VFX: 0

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: radiated_slime
   m_EditorClassIdentifier: 
   Visual: 0
+  VFX: 0

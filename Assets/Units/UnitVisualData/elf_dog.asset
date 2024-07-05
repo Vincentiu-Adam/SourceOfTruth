@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: elf_dog
   m_EditorClassIdentifier: 
   Visual: 3
+  VFX: 1

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: defense_turret
   m_EditorClassIdentifier: 
   Visual: 1
+  VFX: 0

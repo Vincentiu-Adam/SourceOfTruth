@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: beast_chasms
   m_EditorClassIdentifier: 
   Visual: 0
+  VFX: 0

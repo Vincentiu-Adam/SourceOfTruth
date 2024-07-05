@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: xenoid
   m_EditorClassIdentifier: 
   Visual: 1
+  VFX: 0

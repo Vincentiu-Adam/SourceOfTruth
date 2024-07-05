@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: waste_guzzler
   m_EditorClassIdentifier: 
   Visual: 1
+  VFX: 0
