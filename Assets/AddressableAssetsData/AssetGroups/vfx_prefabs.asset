@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: vfx_prefabs
   m_GUID: 5f5cd424210428746bf9712ced8d6028
   m_SerializeEntries:
+  - m_GUID: 1a5c72131a4d0d34699dd1dc2165ce02
+    m_Address: none
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 417d95259df90e4488eb927fde45cba3
     m_Address: blizzard
     m_ReadOnly: 0

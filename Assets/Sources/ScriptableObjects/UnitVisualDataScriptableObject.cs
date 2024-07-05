@@ -10,6 +10,7 @@ public enum UnitVisualEnum
 
 public enum UnitVFXEnum
 {
+    NONE,
     EXPLOSION,
     LASER,
     BLIZZARD
