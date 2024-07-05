@@ -15,6 +15,7 @@ public class Main : MonoBehaviour
 
     private const string StagingParentName = "staging";
     private const string UnitParentName = "character_container";
+    private const string UnitVFXParentName = "vfx_container";
     private const string UnitInfoUIParentName = "canvas/unit_info";
 
     private const string ReloadButtonName = "canvas/button_reload";
@@ -34,6 +35,7 @@ public class Main : MonoBehaviour
     private TMP_Dropdown m_RightUnitSelectDropdown = null;
 
     private Transform m_UnitParent = null;
+    private Transform m_UnitVFXParent = null;
 
     private Transform m_LeftStagingSlot = null;
     private Transform m_RightStagingSlot = null;
@@ -77,7 +79,11 @@ public class Main : MonoBehaviour
         m_UnitParent = new GameObject(UnitParentName).transform;
         m_UnitParent.position = new Vector3(5, 0, 0);
 
-        yield return LoadUnitPrefabs(m_UnitRepository, m_UnitParent);
+        //instantiate a unit vfx prefab parent
+        m_UnitVFXParent = new GameObject(UnitVFXParentName).transform;
+        m_UnitVFXParent.position = new Vector3(-10, 0, 0);
+
+        yield return LoadUnitPrefabs(m_UnitRepository, m_UnitParent, m_UnitVFXParent);
         yield return LoadUI();
 
         m_ReloadButton.onClick.AddListener(OnReloadSpreadsheet);
@@ -114,7 +120,9 @@ public class Main : MonoBehaviour
         if (m_LeftUnitData.AttackCounter >= 1f)
         {
             m_UnitSimulation.Attack(m_LeftUnitData, m_RightUnitData);
+
             m_UnitPresentation.Attack(m_LeftUnitPresentationData);
+            m_UnitPresentation.PlayVFXOnUnit(m_LeftUnitPresentationData, m_RightUnitPresentationData);
 
             //ui update
             float rightUnitHealthRatio = m_RightUnitData.Health / m_RightUnitData.UnitStats.BaseHealth;
@@ -135,7 +143,9 @@ public class Main : MonoBehaviour
         if (m_RightUnitData.AttackCounter >= 1f)
         {
             m_UnitSimulation.Attack(m_RightUnitData, m_LeftUnitData);
+
             m_UnitPresentation.Attack(m_RightUnitPresentationData);
+            m_UnitPresentation.PlayVFXOnUnit(m_RightUnitPresentationData, m_LeftUnitPresentationData);
 
             //ui update
             float leftUnitHealthRatio = m_LeftUnitData.Health / m_LeftUnitData.UnitStats.BaseHealth;
@@ -170,6 +180,7 @@ public class Main : MonoBehaviour
         foreach (UnitPresentationData unitPresentationData in m_UnitPresentationRepository)
         {
             Addressables.ReleaseInstance(unitPresentationData.GameObject);
+            Addressables.ReleaseInstance(unitPresentationData.VFX);
         }
 
         Addressables.ReleaseInstance(m_UIPrefab);
@@ -197,7 +208,7 @@ public class Main : MonoBehaviour
         m_RightInfoUI = new UnitInfoUI(unitInfoUIParent.GetChild(1));
     }
 
-    private IEnumerator LoadUnitPrefabs(UnitRepository unitRepository, Transform unitParent)
+    private IEnumerator LoadUnitPrefabs(UnitRepository unitRepository, Transform unitParent, Transform vfxParent)
     {
         m_UnitPresentationRepository = new UnitPresentationRepository(unitRepository.Count);
 
@@ -208,11 +219,20 @@ public class Main : MonoBehaviour
             var loadOperation = Addressables.InstantiateAsync(visualName, unitParent);
             yield return loadOperation;
 
-            GameObject instance = loadOperation.Result;
-            instance.name = unit.UnitStats.ID + "_" + visualName;
-            instance.SetActive(false);
+            GameObject unitObject = loadOperation.Result;
+            unitObject.name = unit.UnitStats.ID + "_" + visualName;
+            unitObject.SetActive(false);
 
-            UnitPresentationData unitPresentationData = new UnitPresentationData(instance);
+            //load vfx
+            visualName = unit.UnitVisualData.VFX.ToString().ToLower();
+            loadOperation = Addressables.InstantiateAsync(visualName, vfxParent);
+            yield return loadOperation;
+
+            GameObject unitVFX = loadOperation.Result;
+            unitVFX.name = visualName + "_" + unit.UnitStats.ID;
+            unitVFX.SetActive(false);
+
+            UnitPresentationData unitPresentationData = new UnitPresentationData(unitObject, unitVFX);
             m_UnitPresentationRepository.AddUnit(i++, unitPresentationData);
         }
     }
@@ -223,7 +243,10 @@ public class Main : MonoBehaviour
         foreach (UnitPresentationData unitPresentationData in m_UnitPresentationRepository)
         {
             Addressables.ReleaseInstance(unitPresentationData.GameObject);
+            Addressables.ReleaseInstance(unitPresentationData.VFX);
+
             Destroy(unitPresentationData.GameObject);
+            Destroy(unitPresentationData.VFX);
         }
 
         SpreadsheetData resultData = new SpreadsheetData();
@@ -232,7 +255,7 @@ public class Main : MonoBehaviour
         m_UnitRepository = SpreadsheetUtility.LoadUnitSpreadsheet(resultData.ResultJSON);
         Debug.LogFormat("Managed to load {0} units", m_UnitRepository.Count);
 
-        yield return LoadUnitPrefabs(m_UnitRepository, m_UnitParent);
+        yield return LoadUnitPrefabs(m_UnitRepository, m_UnitParent, m_UnitVFXParent);
 
         m_LeftUnitPresentationData = null;
         m_RightUnitPresentationData = null;
@@ -283,6 +306,7 @@ public class Main : MonoBehaviour
         {
             unitPresentationToReload.GameObject.transform.SetParent(m_UnitParent, false);
             unitPresentationToReload.GameObject.SetActive(false);
+            unitPresentationToReload.VFX.SetActive(false);
         }
 
         unitToReload = m_UnitRepository[unitIndex];
@@ -346,6 +370,9 @@ public class Main : MonoBehaviour
 
         m_UnitPresentation.Idle(m_LeftUnitPresentationData);
         m_UnitPresentation.Idle(m_RightUnitPresentationData);
+
+        m_UnitPresentation.ResetVFX(m_LeftUnitPresentationData);
+        m_UnitPresentation.ResetVFX(m_RightUnitPresentationData);
 
         m_LeftInfoUI.UpdateUnitHealth(m_LeftUnitData.Health, 1);
         m_RightInfoUI.UpdateUnitHealth(m_RightUnitData.Health, 1);

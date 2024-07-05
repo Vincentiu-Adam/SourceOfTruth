@@ -8,8 +8,16 @@ public enum UnitVisualEnum
     BEAST_A
 }
 
+public enum UnitVFXEnum
+{
+    EXPLOSION,
+    LASER,
+    BLIZZARD
+}
+
 [CreateAssetMenu(fileName = "unit_visual_data", menuName = "SpreadsheetData/Units/UnitVisualDataScriptableObject")]
 public class UnitVisualDataScriptableObject : SpreadsheetDataScriptableObject
 {
     public UnitVisualEnum Visual;
+    public UnitVFXEnum VFX;
 }
