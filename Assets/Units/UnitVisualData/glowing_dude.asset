@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: glowing_dude
   m_EditorClassIdentifier: 
   Visual: 0
-  VFX: 2
+  VFX: 3
