@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: vfx_prefabs
+  m_EditorClassIdentifier: 
+  m_GroupName: vfx_prefabs
+  m_GUID: 5f5cd424210428746bf9712ced8d6028
+  m_SerializeEntries:
+  - m_GUID: 417d95259df90e4488eb927fde45cba3
+    m_Address: blizzard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41caabb81e9bb9f468feae7e763002e2
+    m_Address: laser
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f881607407b15cc46b24d6bda799037a
+    m_Address: explosion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 689f29f950eead6419177d38d0715e40, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 331e765d3761f2f45a1b2bf9e6ec42db, type: 2}
+    - {fileID: 11400000, guid: a7198cf1812455b41ad1dbcb1327d159, type: 2}
