@@ -55,8 +55,6 @@ public class SpreadsheetEditor : Editor
 
         AddressableAssetGroup assetGroup = AddressableAssetSettingsDefaultObject.Settings.FindGroup(UnitAddressableGroupName);
 
-        bool isSaveAsset = false;
-
         //row 0 contains column names so skip
         for (int i = 1; i < rows.Count; i++)
         {
@@ -78,14 +76,11 @@ public class SpreadsheetEditor : Editor
 
             if (hasData)
             {
-                isSaveAsset = SaveOrUpdateUnitData(rowUnitStats, rowMiscData, rowVisualData, assetGroup) || isSaveAsset;
+                SaveOrUpdateUnitData(rowUnitStats, rowMiscData, rowVisualData, assetGroup);
             }
         }
 
-        if (isSaveAsset)
-        {
-            AssetDatabase.SaveAssets();
-        }
+        AssetDatabase.SaveAssets();
     }
 
     private void LoadSpreadSheet(string uri)
@@ -118,19 +113,17 @@ public class SpreadsheetEditor : Editor
         };
     }
 
-    private bool SaveOrUpdateUnitData(UnitStatsScriptableObject unitStats, UnitMiscDataScriptableObject unitMiscData, UnitVisualDataScriptableObject unitVisualData, AddressableAssetGroup addressableGroup)
+    private void SaveOrUpdateUnitData(UnitStatsScriptableObject unitStats, UnitMiscDataScriptableObject unitMiscData, UnitVisualDataScriptableObject unitVisualData, AddressableAssetGroup addressableGroup)
     {
         string address = unitStats.ID.ToLower();
         string assetName = address + ".asset";
 
-        bool isSaveAsset = CreateOrCopyAsset(assetName, UnitStatDataPath, address, addressableGroup, unitStats);
-        isSaveAsset = CreateOrCopyAsset(assetName, UnitMiscDataPath, address, addressableGroup, unitMiscData) || isSaveAsset;
-        isSaveAsset = CreateOrCopyAsset(assetName, UnitVisualDataPath, address, addressableGroup, unitVisualData) || isSaveAsset;
-
-        return isSaveAsset;
+        CreateOrCopyAsset(assetName, UnitStatDataPath, address, addressableGroup, unitStats);
+        CreateOrCopyAsset(assetName, UnitMiscDataPath, address, addressableGroup, unitMiscData);
+        CreateOrCopyAsset(assetName, UnitVisualDataPath, address, addressableGroup, unitVisualData);
     }
 
-    private bool CreateOrCopyAsset<T>(string assetName, string assetDataPath, string address, AddressableAssetGroup addressableGroup, T dataContainer) where T : SpreadsheetDataScriptableObject
+    private void CreateOrCopyAsset<T>(string assetName, string assetDataPath, string address, AddressableAssetGroup addressableGroup, T dataContainer) where T : SpreadsheetDataScriptableObject
     {
         string assetPath = assetDataPath + assetName;
 
@@ -140,7 +133,7 @@ public class SpreadsheetEditor : Editor
             CopyData(existingDataContainer, dataContainer);
             EditorUtility.SetDirty(existingDataContainer);
 
-            return false;
+            return;
         }
 
         AssetDatabase.CreateAsset(dataContainer, assetPath);
@@ -150,8 +143,6 @@ public class SpreadsheetEditor : Editor
 
         var entry = AddressableAssetSettingsDefaultObject.Settings.CreateOrMoveEntry(guid, addressableGroup);
         entry.address = address.ToLower();
-
-        return true;
     }
 
     private void CopyData<T>(T data, T otherData) where T : SpreadsheetDataScriptableObject

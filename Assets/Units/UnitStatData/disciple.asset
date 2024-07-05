@@ -16,5 +16,5 @@ MonoBehaviour:
   Name: enemyName_disciple
   BaseHealth: 650
   AttackSpeed: 2
-  AttackDamage: 40
+  AttackDamage: 80
   Armor: 30
