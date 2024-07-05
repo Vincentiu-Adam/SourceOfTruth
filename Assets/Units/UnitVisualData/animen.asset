@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c30c7f774b6d940955364bdcd4ec43, type: 3}
   m_Name: animen
   m_EditorClassIdentifier: 
-  Visual: 1
-  VFX: 0
+  Visual: 7
+  VFX: 3

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c30c7f774b6d940955364bdcd4ec43, type: 3}
   m_Name: murder_of_crows
   m_EditorClassIdentifier: 
-  Visual: 1
+  Visual: 8
   VFX: 0

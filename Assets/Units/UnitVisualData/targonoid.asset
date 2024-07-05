@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: targonoid
   m_EditorClassIdentifier: 
   Visual: 1
-  VFX: 0
+  VFX: 1

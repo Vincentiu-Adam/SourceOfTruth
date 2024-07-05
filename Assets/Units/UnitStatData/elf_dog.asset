@@ -17,4 +17,4 @@ MonoBehaviour:
   BaseHealth: 1550
   AttackSpeed: 1
   AttackDamage: 300
-  Armor: 25
+  Armor: 20
